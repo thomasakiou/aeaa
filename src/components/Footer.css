@@ -1,0 +1,122 @@
+.site-footer {
+    background: linear-gradient(135deg, var(--color-green-dark) 0%, #003d22 100%);
+    color: rgba(255, 255, 255, 0.85);
+    position: relative;
+    overflow: hidden;
+}
+
+.footer-wave {
+    display: none;
+}
+
+.footer-content {
+    padding: 2rem 1.5rem 0.65rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    padding: 2rem 0 0;
+}
+
+.footer-brand {
+    max-width: 350px;
+}
+
+.footer-logo {
+    height: 36px;
+    margin-bottom: 0.45rem;
+}
+
+.footer-brand p {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    margin-bottom: 0.35rem;
+}
+
+.footer-host {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem !important;
+}
+
+.footer-links-col h4 {
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.footer-links-col h4::after {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 2px;
+    background: var(--color-green-light);
+    margin-top: 0.3rem;
+}
+
+.footer-links-col ul {
+    list-style: none;
+}
+
+.footer-links-col li {
+    margin-bottom: 0.4rem;
+}
+
+.footer-links-col a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.footer-links-col a:hover {
+    color: white;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.6rem;
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+.footer-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+}
+
+.footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: rgba(255, 255, 255, 0.7);
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.footer-socials a:hover {
+    color: white;
+    border-color: var(--color-green-light);
+    background: rgba(255, 255, 255, 0.1);
+}
