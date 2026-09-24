@@ -27,7 +27,7 @@ export default function Home() {
             {/* Introduction Section */}
             <section className="about-section container" id="about" style={{ paddingTop: '6rem', paddingBottom: '3rem' }}>
                 <img src="/img/emblem.png" alt="" aria-hidden="true" className="about-floating-emblem" />
-                <div className="about-grid" style={{ alignItems: 'stretch', gridTemplateColumns: '55% 1fr', gap: '3rem' }}>
+                <div className="about-grid">
                     <div className="about-image-box animate-fade-left">
                         <img src="/img/intro.png" alt="Host City - Abuja" className="about-img main-img" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }} />
                     </div>

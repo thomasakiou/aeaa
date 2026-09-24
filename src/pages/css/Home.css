@@ -10,12 +10,13 @@
 }
 
 .hero-banner-img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    display: block;
-    min-height: 85vh;
+    z-index: 1;
 }
 
 .hero-theme-overlay {
@@ -75,6 +76,7 @@
 }
 
 @keyframes themeTextShimmer {
+
     0%,
     100% {
         background-position: 0% center;
@@ -202,6 +204,7 @@
 }
 
 @keyframes floatAboutEmblem {
+
     0%,
     100% {
         transform: translate3d(0, 0, 0) rotate(-8deg);
@@ -214,9 +217,9 @@
 
 .about-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 5rem;
-    align-items: center;
+    grid-template-columns: 55% 1fr;
+    gap: 3rem;
+    align-items: stretch;
 }
 
 .about-image-box {
@@ -472,8 +475,8 @@
         grid-template-columns: 1fr;
     }
 
-    .hero-banner-img {
-        min-height: 55vh;
+    .hero {
+        min-height: 100vh;
     }
 
     .hero-theme-overlay {
@@ -485,6 +488,8 @@
 
     .hero-theme-overlay strong {
         font-size: 1.15rem;
+        white-space: normal;
+        width: auto;
     }
 
     .hero-theme-overlay p {
@@ -495,6 +500,8 @@
         flex-direction: column;
         gap: 1.5rem;
         padding: 0 1.5rem;
+        top: auto;
+        bottom: 3rem;
     }
 
     .btn-hero-primary,
