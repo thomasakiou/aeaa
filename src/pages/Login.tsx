@@ -10,7 +10,7 @@ export default function Login() {
             </div>
             <div className="page-body">
                 <div className="login-card glass-panel animate-scale-in">
-                    <img src="/img/neco.png" alt="NECO Logo" className="login-logo animate-float" />
+                    {/* <img src="/img/neco.png" alt="NECO Logo" className="login-logo animate-float" /> */}
                     <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-green-dark)', marginBottom: '0.5rem' }}>Welcome Back</h2>
                     <p style={{ color: 'var(--color-text-light)', marginBottom: '2rem' }}>Sign in to your AEAA Conference portal</p>
                     <form className="login-form" onSubmit={(e) => e.preventDefault()}>
