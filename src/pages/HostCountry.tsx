@@ -12,7 +12,7 @@ export default function HostCountry() {
             </div>
             <div className="page-body about-content-grid about-content-grid-reverse">
                 <div className="about-feature-image animate-fade-right">
-                    <img src="/img/Flag-Nigeria.png" alt="The Nigerian flag" />
+                    <img src="/img/flags.png" alt="The Nigerian flag" />
                 </div>
                 <div className="about-copy animate-fade-left">
                     <MapPin size={40} color="var(--color-green-primary)" />

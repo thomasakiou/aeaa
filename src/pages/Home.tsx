@@ -58,7 +58,7 @@ export default function Home() {
                 <div className="banner-overlay">
                     <div className="container" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <div style={{ textAlign: 'center', color: 'white', maxWidth: '800px' }}>
-                            <img src="/img/Flag-Nigeria.png" alt="Nigeria Flag" className="banner-flag animate-float" />
+                            <img src="/img/flags.png" alt="Nigeria Flag" className="banner-flag animate-float" />
                             <h2 style={{ color: 'white', fontSize: '2.5rem', marginBottom: '1rem' }}>Discover the rich culture of Nigeria</h2>
                             <p style={{ fontSize: '1.2rem', opacity: 0.9, marginBottom: '2rem' }}>A vibrant environment for expanding the horizons of educational assessment.</p>
                             <Link to="/about/gallery" className="btn btn-outline" style={{ borderColor: 'white', color: 'white' }}>
