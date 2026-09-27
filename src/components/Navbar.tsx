@@ -51,7 +51,11 @@ export default function Navbar() {
             <div className="navbar-container container">
                 <Link to="/" className="navbar-logo">
                     <img src="/img/emblem.png" alt="NECO Logo" className="logo-img" />
-                    <span className="logo-text">AEAA</span>
+                    <div className="logo-title">
+                        <span className="logo-text">AEAA</span>
+                        <span className="hosted-text">HOSTED BY NECO</span>
+                    </div>
+                    <img src="/img/neco.png" alt="NECO Logo" className="logo-img" />
                 </Link>
                 <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
                     {isOpen ? <X size={28} /> : <Menu size={28} />}
