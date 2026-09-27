@@ -53,7 +53,7 @@ export default function Navbar() {
                     <img src="/img/emblem.png" alt="NECO Logo" className="logo-img" />
                     <div className="logo-title">
                         <span className="logo-text">AEAA</span>
-                        <span className="hosted-text">HOSTED BY NECO</span>
+                        <span className="hosted-text">HOSTED BY <span className="neco-green">NECO</span></span>
                     </div>
                     <img src="/img/neco.png" alt="NECO Logo" className="logo-img" />
                 </Link>
