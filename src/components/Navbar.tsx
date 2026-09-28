@@ -8,6 +8,7 @@ const navItems = [
     { label: 'Programme', path: '/programme' },
     { label: 'Registration', path: '/registration' },
     { label: 'Submission', path: '/submission' },
+    { label: 'Downloads', path: '/downloads' },
     { label: 'Contact', path: '/contact' },
 ];
 

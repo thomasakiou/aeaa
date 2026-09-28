@@ -1,0 +1,60 @@
+.downloads-page {
+    padding-bottom: 4rem;
+}
+
+.downloads-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.download-card {
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    justify-content: space-between;
+}
+
+.download-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.download-icon-wrapper {
+    background-color: rgba(0, 135, 81, 0.1);
+    padding: 1rem;
+    border-radius: 12px;
+    color: var(--color-green-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.download-title {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-green-dark);
+}
+
+.download-description {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-main);
+    font-size: 0.95rem;
+}
+
+.download-metadata {
+    display: flex;
+    gap: 1rem;
+    color: var(--color-text-light);
+    font-size: 0.85rem;
+}
+
+.download-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}

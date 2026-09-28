@@ -112,6 +112,16 @@ export default function Registration() {
                                 <input type="tel" placeholder="+234..." className="form-input" />
                             </div>
                         </div>
+                        <div className="form-row">
+                            <div className="input-group">
+                                <label>Password</label>
+                                <input type="password" placeholder="••••••••" className="form-input" />
+                            </div>
+                            <div className="input-group">
+                                <label>Confirm Password</label>
+                                <input type="password" placeholder="••••••••" className="form-input" />
+                            </div>
+                        </div>
                         <button type="submit" className="btn btn-primary form-submit-btn">Proceed with Registration</button>
                     </form>
                 </div>

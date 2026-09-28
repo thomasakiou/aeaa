@@ -14,6 +14,7 @@ import Gallery from './pages/Gallery'
 import Speakers from './pages/Speakers'
 import ExcursionSites from './pages/ExcursionSites'
 import Venue from './pages/Venue'
+import Downloads from './pages/Downloads'
 import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import './index.css'
@@ -44,6 +45,7 @@ function App() {
                     <Route path="/programme/speakers" element={<Speakers />} />
                     <Route path="/programme/excursion-sites" element={<ExcursionSites />} />
                     <Route path="/programme/venue" element={<Venue />} />
+                    <Route path="/downloads" element={<Downloads />} />
                     <Route path="/registration" element={<Registration />} />
                     <Route path="/submission" element={<Submission />} />
                     <Route path="/contact" element={<Contact />} />

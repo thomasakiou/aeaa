@@ -1,7 +1,11 @@
+import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
 import '../styles/animations.css';
 import './css/Login.css';
 
 export default function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
         <div className="login-page">
             <div className="page-hero">
@@ -18,9 +22,21 @@ export default function Login() {
                             <label>Email Address</label>
                             <input type="email" placeholder="you@example.com" className="form-input" />
                         </div>
-                        <div className="input-group animate-fade-up-d3">
+                        <div className="input-group animate-fade-up-d3" style={{ position: 'relative' }}>
                             <label>Password</label>
-                            <input type="password" placeholder="••••••••" className="form-input" />
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                placeholder="••••••••"
+                                className="form-input"
+                                style={{ paddingRight: '2.5rem' }}
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
                         </div>
                         <button type="submit" className="btn btn-primary form-btn animate-fade-up-d4">Sign In</button>
                     </form>
