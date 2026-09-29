@@ -58,3 +58,33 @@
     gap: 0.5rem;
     flex-shrink: 0;
 }
+
+@media (max-width: 768px) {
+    .download-card {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.5rem;
+        gap: 1.25rem;
+    }
+
+    .download-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .download-icon-wrapper {
+        align-self: center;
+    }
+
+    .download-metadata {
+        justify-content: center;
+    }
+
+    .download-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.85rem;
+    }
+}
