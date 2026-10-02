@@ -1,6 +1,6 @@
 // src/api/client.ts
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/+$/, '');
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'https://vmi2848672.contaboserver.net/aeaa/api').replace(/\/+$/, '');
 
 export function apiUrl(endpoint: string): string {
     return `${API_BASE_URL}/${endpoint.replace(/^\/+/, '')}`;

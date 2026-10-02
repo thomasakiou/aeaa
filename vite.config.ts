@@ -7,9 +7,10 @@ export default defineConfig({
     server: {
         proxy: {
             '/api': {
-                target: 'http://localhost:8010',
+                target: 'https://vmi2848672.contaboserver.net',
                 changeOrigin: true,
-            }
-        }
-    }
+                rewrite: path => path.replace(/^\/api/, '/aeaa/api'),
+            },
+        },
+    },
 })
