@@ -3,6 +3,10 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import UserDashboard from './pages/UserDashboard'
+import AdminDashboard from './pages/AdminDashboard'
+import ProtectedRoute from './components/ProtectedRoute'
+import { AuthProvider } from './context/AuthContext'
 import Programme from './pages/Programme'
 import Registration from './pages/Registration'
 import Submission from './pages/Submission'
@@ -31,33 +35,40 @@ function App() {
     const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
     return (
-        <div className="app-container">
-            <Navbar />
-            <main>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/about/host-organisation" element={<HostOrganisation />} />
-                    <Route path="/about/host-country" element={<HostCountry />} />
-                    <Route path="/about/gallery" element={<Gallery />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/programme" element={<Programme />} />
-                    <Route path="/programme/speakers" element={<Speakers />} />
-                    <Route path="/programme/excursion-sites" element={<ExcursionSites />} />
-                    <Route path="/programme/venue" element={<Venue />} />
-                    <Route path="/downloads" element={<Downloads />} />
-                    <Route path="/registration" element={<Registration />} />
-                    <Route path="/submission" element={<Submission />} />
-                    <Route path="/contact" element={<Contact />} />
-                </Routes>
-            </main>
-            <Footer />
-            {showBackToTop && (
-                <button type="button" className="back-to-top" onClick={scrollToTop} aria-label="Back to top" title="Back to top">
-                    <ArrowUp size={20} />
-                </button>
-            )}
-        </div>
+        <AuthProvider>
+            <div className="app-container">
+                <Navbar />
+                <main>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/about/host-organisation" element={<HostOrganisation />} />
+                        <Route path="/about/host-country" element={<HostCountry />} />
+                        <Route path="/about/gallery" element={<Gallery />} />
+                        <Route path="/login" element={<Login />} />
+
+                        {/* Protected Dashboard Routes */}
+                        <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+                        <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
+
+                        <Route path="/programme" element={<Programme />} />
+                        <Route path="/programme/speakers" element={<Speakers />} />
+                        <Route path="/programme/excursion-sites" element={<ExcursionSites />} />
+                        <Route path="/programme/venue" element={<Venue />} />
+                        <Route path="/downloads" element={<Downloads />} />
+                        <Route path="/registration" element={<Registration />} />
+                        <Route path="/submission" element={<Submission />} />
+                        <Route path="/contact" element={<Contact />} />
+                    </Routes>
+                </main>
+                <Footer />
+                {showBackToTop && (
+                    <button type="button" className="back-to-top" onClick={scrollToTop} aria-label="Back to top" title="Back to top">
+                        <ArrowUp size={20} />
+                    </button>
+                )}
+            </div>
+        </AuthProvider>
     )
 }
 

@@ -1,8 +1,35 @@
 import '../styles/animations.css';
 import './css/Contact.css';
 import { Mail, Phone, Globe, Send, User } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Contact() {
+    const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setStatus('loading');
+        setErrorMessage('');
+        try {
+            const response = await fetch('/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({ 'form-name': 'contact', ...formData }).toString(),
+            });
+            if (!response.ok) throw new Error('Netlify could not accept the message. Please try again later.');
+            setStatus('success');
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        } catch (err) {
+            setStatus('error');
+            setErrorMessage(err instanceof Error ? err.message : 'Failed to send message. Please try again later.');
+        }
+    };
     return (
         <div className="contact-page">
             <div className="page-hero">
@@ -78,28 +105,41 @@ export default function Contact() {
                         </div>
                     </div>
 
-                    {/* Contact Form */}
                     <div className="contact-form-col animate-fade-right">
-                        <form className="contact-form glass-panel" onSubmit={(e) => e.preventDefault()}>
+                        <form className="contact-form glass-panel" name="contact" method="POST" data-netlify="true" onSubmit={handleSubmit}>
+                            <input type="hidden" name="form-name" value="contact" />
                             <h3>Send a Message</h3>
+
+                            {status === 'success' && (
+                                <div style={{ padding: '1rem', background: 'rgba(0, 135, 81, 0.1)', color: 'var(--color-green-dark)', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid var(--color-green-primary)' }}>
+                                    Your message has been sent successfully. We will get back to you shortly.
+                                </div>
+                            )}
+
+                            {status === 'error' && (
+                                <div style={{ padding: '1rem', background: 'rgba(255, 0, 0, 0.1)', color: 'red', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid rgba(255,0,0,0.3)' }}>
+                                    {errorMessage}
+                                </div>
+                            )}
+
                             <div className="input-group">
                                 <label>Your Name</label>
-                                <input type="text" placeholder="Full name" className="form-input" />
+                                <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Full name" className="form-input" required />
                             </div>
                             <div className="input-group">
                                 <label>Email Address</label>
-                                <input type="email" placeholder="you@example.com" className="form-input" />
+                                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" className="form-input" required />
                             </div>
                             <div className="input-group">
                                 <label>Subject</label>
-                                <input type="text" placeholder="What is this about?" className="form-input" />
+                                <input type="text" name="subject" value={formData.subject} onChange={handleChange} placeholder="What is this about?" className="form-input" required />
                             </div>
                             <div className="input-group">
                                 <label>Message</label>
-                                <textarea placeholder="Write your message here..." className="form-input form-textarea" rows={5}></textarea>
+                                <textarea name="message" value={formData.message} onChange={handleChange} placeholder="Write your message here..." className="form-input form-textarea" rows={5} required></textarea>
                             </div>
-                            <button type="submit" className="btn btn-primary form-submit-btn">
-                                <Send size={18} style={{ marginRight: '0.5rem' }} /> Send Message
+                            <button type="submit" className="btn btn-primary form-submit-btn" disabled={status === 'loading'}>
+                                {status === 'loading' ? 'Sending...' : <><Send size={18} style={{ marginRight: '0.5rem' }} /> Send Message</>}
                             </button>
                         </form>
                     </div>

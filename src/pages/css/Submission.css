@@ -238,6 +238,33 @@
     line-height: 1.6;
 }
 
+.upload-title-group {
+    margin-bottom: 1.25rem;
+}
+
+.upload-title-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.upload-modal .form-input {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(0, 135, 81, 0.25);
+    border-radius: 8px;
+    background: white;
+    color: var(--color-text-main);
+    font: inherit;
+}
+
+.upload-modal .form-input:focus {
+    border-color: var(--color-green-primary);
+    outline: 2px solid rgba(0, 135, 81, 0.15);
+}
+
 .modal-upload-box {
     display: block;
     width: 100%;

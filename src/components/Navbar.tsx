@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const navItems = [
@@ -32,6 +33,7 @@ export default function Navbar() {
     const [isProgrammeOpen, setIsProgrammeOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const { isAuthenticated, user, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -135,9 +137,25 @@ export default function Navbar() {
                             </Link>
                         </li>
                     ))}
-                    <li className="nav-item nav-btn-item">
-                        <Link to="/login" className="btn btn-primary nav-login-btn">Portal Login</Link>
-                    </li>
+                    {isAuthenticated && user ? (
+                        <>
+                            <li className="nav-item">
+                                <Link
+                                    to={user.role === 'ADMIN' ? '/admin' : '/dashboard'}
+                                    className={`nav-links ${location.pathname === (user.role === 'ADMIN' ? '/admin' : '/dashboard') ? 'nav-active' : ''}`}
+                                >
+                                    My Dashboard
+                                </Link>
+                            </li>
+                            <li className="nav-item nav-btn-item">
+                                <button onClick={logout} className="btn btn-outline nav-login-btn">Logout</button>
+                            </li>
+                        </>
+                    ) : (
+                        <li className="nav-item nav-btn-item">
+                            <Link to="/login" className="btn btn-primary nav-login-btn">Portal Login</Link>
+                        </li>
+                    )}
                 </ul>
             </div>
         </nav>

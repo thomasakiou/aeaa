@@ -1,8 +1,9 @@
 import '../styles/animations.css';
-import './css/Submission.css';
-import { FileText, AlertCircle, Mail, Upload, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { FileText, AlertCircle, Mail, Upload } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import PaperUploadModal from '../components/PaperUploadModal';
 
 const guidelines = [
     { label: 'ABSTRACTS', text: 'Maximum of 350 words. Must include Title, Sub-Theme, and Author(s) details (name(s), institutional affiliation, email address(es)).' },
@@ -20,46 +21,25 @@ const subThemes = [
 ];
 
 export default function Submission() {
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [fileError, setFileError] = useState('');
 
     useEffect(() => {
-        if (!isUploadModalOpen) {
+        const routeState = location.state as { openUploadModal?: boolean } | null;
+        if (user && routeState?.openUploadModal) {
+            setIsUploadModalOpen(true);
+            navigate(`${location.pathname}${location.search}${location.hash}`, { replace: true, state: null });
+        }
+    }, [location, navigate, user]);
+
+    const handleUploadClick = () => {
+        if (!user) {
+            navigate('/login');
             return;
         }
-
-        const originalOverflow = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
-
-        return () => {
-            document.body.style.overflow = originalOverflow;
-        };
-    }, [isUploadModalOpen]);
-
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-
-        if (!file) {
-            setSelectedFile(null);
-            return;
-        }
-
-        if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-            setSelectedFile(null);
-            setFileError('Please select a PDF file.');
-            event.target.value = '';
-            return;
-        }
-
-        setFileError('');
-        setSelectedFile(file);
-    };
-
-    const closeUploadModal = () => {
-        setIsUploadModalOpen(false);
-        setSelectedFile(null);
-        setFileError('');
+        setIsUploadModalOpen(true);
     };
 
     return (
@@ -118,7 +98,7 @@ export default function Submission() {
                             Abstracts and papers should be submitted by uploading them directly on the official AEAA website and sent as an attachment to the conference email addresses provided under Contact Us.
                         </p>
                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem', justifyContent: 'center' }}>
-                            <button type="button" className="btn btn-primary" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }} onClick={() => setIsUploadModalOpen(true)}>
+                            <button type="button" className="btn btn-primary" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }} onClick={handleUploadClick}>
                                 <Upload size={20} style={{ marginRight: '8px' }} /> Upload Paper
                             </button>
                             <Link to="/contact" className="btn btn-outline" style={{ padding: '1rem 2rem', fontSize: '1.1rem' }}>
@@ -130,33 +110,7 @@ export default function Submission() {
 
             </div>
 
-            {isUploadModalOpen && (
-                <div className="upload-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && closeUploadModal()}>
-                    <div className="upload-modal" role="dialog" aria-modal="true" aria-labelledby="upload-modal-title">
-                        <div className="upload-modal-header">
-                            <div>
-                                <span className="upload-modal-eyebrow">Paper submission</span>
-                                <h2 id="upload-modal-title">Upload your paper</h2>
-                            </div>
-                            <button type="button" className="upload-modal-close" onClick={closeUploadModal} aria-label="Close upload modal">
-                                <X size={22} />
-                            </button>
-                        </div>
-                        <p className="upload-modal-description">Select your completed paper as a PDF file to prepare it for submission.</p>
-                        <label className="upload-box modal-upload-box" htmlFor="paper-upload">
-                            <Upload size={34} color="var(--color-green-primary)" />
-                            <h4>{selectedFile ? selectedFile.name : 'Choose a PDF file'}</h4>
-                            <p>{selectedFile ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB selected` : 'PDF format only'}</p>
-                            <input id="paper-upload" className="file-input" type="file" accept="application/pdf,.pdf" onChange={handleFileChange} />
-                        </label>
-                        {fileError && <p className="upload-file-error" role="alert">{fileError}</p>}
-                        <div className="upload-modal-actions">
-                            <button type="button" className="btn btn-outline" onClick={closeUploadModal}>Cancel</button>
-                            <button type="button" className="btn btn-primary" disabled={!selectedFile}>Continue</button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {isUploadModalOpen && <PaperUploadModal onClose={() => setIsUploadModalOpen(false)} />}
         </div>
     );
 }
