@@ -112,7 +112,7 @@ export default function Contact() {
 
                             {status === 'success' && (
                                 <div style={{ padding: '1rem', background: 'rgba(0, 135, 81, 0.1)', color: 'var(--color-green-dark)', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid var(--color-green-primary)' }}>
-                                    Your message has been sent successfully. We will get back to you shortly.
+                                    Your message was accepted. Email notifications are handled separately.
                                 </div>
                             )}
 
