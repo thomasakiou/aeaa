@@ -1,5 +1,5 @@
 import { useAuth } from '../context/AuthContext';
-import { Users, Trash2, CheckCircle, RotateCcw, ChevronDown, ChevronUp, FileDown } from 'lucide-react';
+import { Users, Trash2, CheckCircle, RotateCcw, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, FileDown } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { apiUrl, fetchApi } from '../api/client';
 import './css/Dashboard.css';
@@ -27,6 +27,41 @@ export default function AdminDashboard() {
     const [submissionError, setSubmissionError] = useState('');
     const [downloadingSubmissionId, setDownloadingSubmissionId] = useState<string | null>(null);
     const [downloadError, setDownloadError] = useState('');
+
+    // Pagination state
+    const [currentPage, setCurrentPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const totalPages = Math.ceil(users.length / rowsPerPage);
+    const startIndex = (currentPage - 1) * rowsPerPage;
+    const paginatedUsers = users.slice(startIndex, startIndex + rowsPerPage);
+
+    const handleRowsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setRowsPerPage(Number(e.target.value));
+        setCurrentPage(1);
+        setExpandedRows([]);
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        setExpandedRows([]);
+    };
+
+    const getPageNumbers = (): (number | '...')[] => {
+        const pages: (number | '...')[] = [];
+        if (totalPages <= 7) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+        } else {
+            pages.push(1);
+            if (currentPage > 3) pages.push('...');
+            const start = Math.max(2, currentPage - 1);
+            const end = Math.min(totalPages - 1, currentPage + 1);
+            for (let i = start; i <= end; i++) pages.push(i);
+            if (currentPage < totalPages - 2) pages.push('...');
+            pages.push(totalPages);
+        }
+        return pages;
+    };
 
     useEffect(() => {
         const loadData = async () => {
@@ -138,6 +173,24 @@ export default function AdminDashboard() {
                         <h3 style={{ margin: 0 }}>Recent Users</h3>
                     </div>
 
+                    {/* Rows-per-page toolbar */}
+                    <div className="pagination-toolbar">
+                        <label htmlFor="rows-per-page" className="pagination-label">Rows per page:</label>
+                        <select
+                            id="rows-per-page"
+                            className="pagination-select"
+                            value={rowsPerPage}
+                            onChange={handleRowsPerPageChange}
+                        >
+                            {[5, 10, 25, 50].map(n => (
+                                <option key={n} value={n}>{n}</option>
+                            ))}
+                        </select>
+                        <span className="pagination-info">
+                            Showing {users.length === 0 ? 0 : startIndex + 1}–{Math.min(startIndex + rowsPerPage, users.length)} of {users.length} users
+                        </span>
+                    </div>
+
                     <div className="admin-table-container">
                         <table className="admin-table">
                             <thead>
@@ -150,7 +203,7 @@ export default function AdminDashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(u => (
+                                {paginatedUsers.map(u => (
                                     <React.Fragment key={u.id}>
                                         <tr style={{ background: expandedRows.includes(u.id) ? 'rgba(0,135,81,0.03)' : 'transparent' }}>
                                             <td>
@@ -245,6 +298,45 @@ export default function AdminDashboard() {
                             </tbody>
                         </table>
                     </div>
+
+                    {/* Pagination controls */}
+                    {totalPages > 1 && (
+                        <div className="pagination-controls">
+                            <button
+                                className="pagination-btn pagination-nav"
+                                disabled={currentPage === 1}
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                aria-label="Previous page"
+                            >
+                                <ChevronLeft size={16} /> Prev
+                            </button>
+
+                            <div className="pagination-pages">
+                                {getPageNumbers().map((page, idx) =>
+                                    page === '...' ? (
+                                        <span key={`ellipsis-${idx}`} className="pagination-ellipsis">…</span>
+                                    ) : (
+                                        <button
+                                            key={page}
+                                            className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
+                                            onClick={() => handlePageChange(page as number)}
+                                        >
+                                            {page}
+                                        </button>
+                                    )
+                                )}
+                            </div>
+
+                            <button
+                                className="pagination-btn pagination-nav"
+                                disabled={currentPage === totalPages}
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                aria-label="Next page"
+                            >
+                                Next <ChevronRight size={16} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
