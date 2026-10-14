@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { User } from 'lucide-react';
+import { User, Download } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { fetchApi } from '../api/client';
 import './css/Dashboard.css';
 import { Navigate } from 'react-router-dom';
 import PaperUploadModal from '../components/PaperUploadModal';
+import { generateQrDataUrl, downloadQrAsPng } from '../utils/qrcode';
 
 interface Submission {
     id: string;
@@ -20,6 +21,10 @@ export default function UserDashboard() {
     const [submissionError, setSubmissionError] = useState('');
     const [isLoadingSubmissions, setIsLoadingSubmissions] = useState(true);
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
+    // QR code state
+    const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+    const [qrLoading, setQrLoading] = useState(false);
 
     const refreshSubmissions = async () => {
         setIsLoadingSubmissions(true);
@@ -39,6 +44,19 @@ export default function UserDashboard() {
         void refreshSubmissions();
     }, [user?.id]);
 
+    // Generate QR code when payment is completed
+    useEffect(() => {
+        if (!user || user.paymentStatus !== 'COMPLETED') {
+            setQrDataUrl(null);
+            return;
+        }
+        setQrLoading(true);
+        generateQrDataUrl(user.id)
+            .then(setQrDataUrl)
+            .catch(() => setQrDataUrl(null))
+            .finally(() => setQrLoading(false));
+    }, [user?.id, user?.paymentStatus]);
+
     // Fallback if component renders briefly before redirect
     if (!user) return <Navigate to="/login" replace />;
 
@@ -49,9 +67,6 @@ export default function UserDashboard() {
                     <h1>Participant <span style={{ opacity: 0.7 }}>Dashboard</span></h1>
                     <p style={{ color: 'var(--color-text-light)' }}>Welcome back, {user.fullName}</p>
                 </div>
-                {/* <button onClick={logout} className="btn btn-outline" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <LogOut size={18} /> Logout
-                </button> */}
             </div>
 
             <div className="dashboard-grid">
@@ -82,6 +97,30 @@ export default function UserDashboard() {
                             <span className="info-value">{user.country || 'Not provided'}</span>
                         </div>
                     </div>
+
+                    {/* QR Code Section — only when payment is confirmed */}
+                    {user.paymentStatus === 'COMPLETED' && (
+                        <div className="qr-card-section">
+                            <div className="qr-card-divider" />
+                            <h4 className="qr-card-title">Your Conference QR Code</h4>
+                            {qrLoading ? (
+                                <p style={{ textAlign: 'center', color: 'var(--color-text-light)' }}>Generating QR code…</p>
+                            ) : qrDataUrl ? (
+                                <div className="qr-card-body">
+                                    <img src={qrDataUrl} alt="Your QR Code" className="qr-code-img" />
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary qr-download-btn"
+                                        onClick={() => downloadQrAsPng(user.id, user.fullName)}
+                                    >
+                                        <Download size={16} /> Download QR Code
+                                    </button>
+                                </div>
+                            ) : (
+                                <p style={{ textAlign: 'center', color: 'var(--color-text-light)' }}>Unable to generate QR code.</p>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/* Registration Data */}

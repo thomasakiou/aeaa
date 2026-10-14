@@ -19,6 +19,7 @@ import Speakers from './pages/Speakers'
 import ExcursionSites from './pages/ExcursionSites'
 import Venue from './pages/Venue'
 import Downloads from './pages/Downloads'
+import VerifyUser from './pages/VerifyUser'
 import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import './index.css'
@@ -59,6 +60,7 @@ function App() {
                         <Route path="/registration" element={<Registration />} />
                         <Route path="/submission" element={<Submission />} />
                         <Route path="/contact" element={<Contact />} />
+                        <Route path="/verify/:userId" element={<VerifyUser />} />
                     </Routes>
                 </main>
                 <Footer />
