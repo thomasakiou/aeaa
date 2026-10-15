@@ -60,7 +60,7 @@ export async function downloadAllQrAsZip(
         const dataUrl = await generateQrDataUrl(user.id, user.fullName);
         // data URL → raw base64 string
         const base64 = dataUrl.split(',')[1];
-        zip.file(`${sanitizeFilename(user.fullName)}.png`, base64, { base64: true });
+        zip.file(`${sanitizeFilename(user.fullName)}-${sanitizeFilename(user.id)}.png`, base64, { base64: true });
         onProgress?.(i + 1, total);
     }
 

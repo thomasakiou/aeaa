@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { apiUrl, fetchApi } from '../api/client';
 import './css/Dashboard.css';
 import { Navigate } from 'react-router-dom';
+import { downloadAllQrAsZip } from '../utils/qrcode';
 
 interface AdminSubmission {
     id: string;
@@ -27,6 +28,9 @@ export default function AdminDashboard() {
     const [submissionError, setSubmissionError] = useState('');
     const [downloadingSubmissionId, setDownloadingSubmissionId] = useState<string | null>(null);
     const [downloadError, setDownloadError] = useState('');
+    const [isDownloadingQrCodes, setIsDownloadingQrCodes] = useState(false);
+    const [qrDownloadProgress, setQrDownloadProgress] = useState({ done: 0, total: 0 });
+    const [qrDownloadError, setQrDownloadError] = useState('');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -117,6 +121,33 @@ export default function AdminDashboard() {
         }
     };
 
+    const handleDownloadAllQrCodes = async () => {
+        const registeredUsers = users
+            .filter(registeredUser => registeredUser.role === 'USER')
+            .map(registeredUser => ({
+                id: String(registeredUser.id),
+                fullName: String(registeredUser.fullName || registeredUser.name || ''),
+            }));
+
+        if (registeredUsers.length === 0) {
+            setQrDownloadError('There are no registered participants to include.');
+            return;
+        }
+
+        setIsDownloadingQrCodes(true);
+        setQrDownloadProgress({ done: 0, total: registeredUsers.length });
+        setQrDownloadError('');
+        try {
+            await downloadAllQrAsZip(registeredUsers, (done, total) => {
+                setQrDownloadProgress({ done, total });
+            });
+        } catch (err) {
+            setQrDownloadError(err instanceof Error ? err.message : 'Unable to generate the QR code archive.');
+        } finally {
+            setIsDownloadingQrCodes(false);
+        }
+    };
+
     const handleTogglePayment = async (id: string, currentStatus: string) => {
         try {
             const newStatus = currentStatus === 'COMPLETED' ? 'PENDING' : 'COMPLETED';
@@ -168,10 +199,24 @@ export default function AdminDashboard() {
 
                 {/* Data Table */}
                 <div className="dashboard-card glass-panel animate-fade-up-d2">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
-                        <Users size={24} color="var(--color-green-dark)" />
-                        <h3 style={{ margin: 0 }}>Recent Users</h3>
+                    <div className="admin-users-heading">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <Users size={24} color="var(--color-green-dark)" />
+                            <h3 style={{ margin: 0 }}>Recent Users</h3>
+                        </div>
+                        <button
+                            type="button"
+                            className="btn btn-outline admin-qr-download-btn"
+                            onClick={() => void handleDownloadAllQrCodes()}
+                            disabled={isDownloadingQrCodes || users.length === 0}
+                        >
+                            <FileDown size={18} />
+                            {isDownloadingQrCodes
+                                ? `Generating ${qrDownloadProgress.done}/${qrDownloadProgress.total}…`
+                                : 'Download All QR Codes'}
+                        </button>
                     </div>
+                    {qrDownloadError && <p className="admin-download-error" role="alert">{qrDownloadError}</p>}
 
                     {/* Rows-per-page toolbar */}
                     <div className="pagination-toolbar">

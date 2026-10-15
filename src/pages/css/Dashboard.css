@@ -154,6 +154,33 @@
     font-size: 0.8rem;
 }
 
+.admin-users-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-qr-download-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.admin-qr-download-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.admin-download-error {
+    margin: -0.5rem 0 1rem;
+    color: #b42318;
+    font-size: 0.9rem;
+}
+
 /* Pagination Toolbar (above table) */
 .pagination-toolbar {
     display: flex;
@@ -296,6 +323,11 @@
 
     .dashboard-card {
         padding: 1.25rem;
+    }
+
+    .admin-users-heading {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .admin-table-container {
