@@ -63,6 +63,20 @@
     margin-top: 2rem;
 }
 
+.reg-logged-in-notice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+}
+
+.reg-logged-in-notice p {
+    margin: 0;
+    color: var(--color-text-main);
+}
+
 .reg-form {
     padding: 3rem;
     border-radius: 20px;
@@ -111,5 +125,10 @@
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
+    }
+
+    .reg-logged-in-notice {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }
