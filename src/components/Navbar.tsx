@@ -9,7 +9,6 @@ const navItems = [
     { label: 'Programme', path: '/programme' },
     { label: 'Registration', path: '/registration' },
     { label: 'Submission', path: '/submission' },
-    { label: 'Downloads', path: '/downloads' },
     { label: 'Contact', path: '/contact' },
 ];
 
@@ -27,6 +26,7 @@ const programmeItems = [
     { label: 'Venue', path: '/programme/venue' },
     { label: 'Hotels', path: '/programme/hotels' },
     { label: 'Visa', path: '/programme/visa' },
+    { label: 'Conference Resources', path: '/downloads' },
 ];
 
 export default function Navbar() {
