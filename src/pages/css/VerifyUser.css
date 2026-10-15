@@ -18,8 +18,32 @@
     display: block;
     width: auto;
     height: 64px;
-    max-width: 42vw;
+    max-width: 30vw;
     object-fit: contain;
+}
+
+.verify-brand-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    color: #005f38;
+    line-height: 1;
+    text-align: center;
+}
+
+.verify-brand-title span {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.verify-brand-title small {
+    color: #333;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
 }
 
 .verify-loading {
@@ -137,6 +161,14 @@
 
     .verify-brand img {
         height: 48px;
+    }
+
+    .verify-brand-title span {
+        font-size: 1.05rem;
+    }
+
+    .verify-brand-title small {
+        font-size: 0.52rem;
     }
 
     .verify-card {

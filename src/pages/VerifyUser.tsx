@@ -88,6 +88,10 @@ function VerifyBrand() {
     return (
         <header className="verify-brand" aria-label="AEAA and NECO">
             <img src="/img/emblem.png" alt="AEAA logo" />
+            <div className="verify-brand-title">
+                <span>AEAA</span>
+                <small>HOSTED BY NECO</small>
+            </div>
             <img src="/img/neco.png" alt="NECO logo" />
         </header>
     );
