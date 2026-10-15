@@ -63,19 +63,15 @@ export default function Home() {
                             Get to know the 43rd AEAA Conference and what awaits you in Nigeria.
                         </p>
                     </div>
-                    <video
+                    <iframe
                         className="home-video-player"
-                        controls
-                        playsInline
-                        preload="metadata"
-                        aria-label="AEAA Nigeria 2027 conference presentation"
-                    >
-                        <source
-                            src="/AEAA%20NIGERIA%202027%20VIDEO%20PRESENTATION%20%20Latest1%20mp4.mp4"
-                            type="video/mp4"
-                        />
-                        Your browser does not support the video element.
-                    </video>
+                        src="https://www.youtube-nocookie.com/embed/RhH3OUu7dXI"
+                        title="AEAA Nigeria 2027 conference presentation"
+                        loading="lazy"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                    />
                 </div>
             </section>
 
