@@ -309,6 +309,51 @@
     margin-bottom: 0.5rem;
 }
 
+/* Conference presentation */
+.home-video-section {
+    padding: 4.5rem 0 5rem;
+    background: linear-gradient(180deg, #f4f7f6 0%, #e9f3ee 100%);
+}
+
+.home-video-content {
+    max-width: 1000px;
+}
+
+.home-video-heading {
+    max-width: 720px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}
+
+.home-video-eyebrow {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+    color: var(--color-green-primary);
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.home-video-heading .section-title {
+    margin-bottom: 0.75rem;
+}
+
+.home-video-heading .section-description {
+    margin-bottom: 0;
+}
+
+.home-video-player {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    aspect-ratio: 16 / 9;
+    border: 4px solid white;
+    border-radius: 18px;
+    background: #07130e;
+    box-shadow: 0 24px 55px rgba(0, 65, 39, 0.2);
+}
+
 /* Banner section */
 .banner-section {
     height: 500px;
@@ -450,6 +495,10 @@
         font-size: 2rem;
     }
 
+    .home-video-section {
+        padding: 3.5rem 0;
+    }
+
     .hero {
         min-height: 70vh;
     }
@@ -477,6 +526,19 @@
 
     .feature-grid {
         grid-template-columns: 1fr;
+    }
+
+    .home-video-section {
+        padding: 3rem 0;
+    }
+
+    .home-video-heading {
+        margin-bottom: 1.5rem;
+    }
+
+    .home-video-player {
+        border-width: 2px;
+        border-radius: 12px;
     }
 
     .hero {

@@ -53,6 +53,32 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* Conference Presentation */}
+            <section className="home-video-section">
+                <div className="container home-video-content">
+                    <div className="home-video-heading">
+                        <span className="home-video-eyebrow">Discover AEAA Nigeria 2027</span>
+                        <h2 className="section-title">Watch the Conference Presentation</h2>
+                        <p className="section-description">
+                            Get to know the 43rd AEAA Conference and what awaits you in Nigeria.
+                        </p>
+                    </div>
+                    <video
+                        className="home-video-player"
+                        controls
+                        playsInline
+                        preload="metadata"
+                        aria-label="AEAA Nigeria 2027 conference presentation"
+                    >
+                        <source
+                            src="/AEAA%20NIGERIA%202027%20VIDEO%20PRESENTATION%20%20Latest1%20mp4.mp4"
+                            type="video/mp4"
+                        />
+                        Your browser does not support the video element.
+                    </video>
+                </div>
+            </section>
+
             {/* Visual Break / Nigeria Banner */}
             <section className="banner-section">
                 <div className="banner-overlay">

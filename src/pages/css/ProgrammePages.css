@@ -18,6 +18,22 @@
     line-height: 1.8;
 }
 
+.hotels-page-body {
+    display: flex;
+    justify-content: center;
+}
+
+.hotels-coming-soon {
+    width: 100%;
+    max-width: 820px;
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.hotels-coming-soon .section-title {
+    margin: 0;
+}
+
 .venue-page-body {
     animation: speakersPageReveal 0.8s ease-out both;
 }

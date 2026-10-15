@@ -51,7 +51,7 @@ export default function UserDashboard() {
             return;
         }
         setQrLoading(true);
-        generateQrDataUrl(user.id)
+        generateQrDataUrl(user.id, user.fullName)
             .then(setQrDataUrl)
             .catch(() => setQrDataUrl(null))
             .finally(() => setQrLoading(false));
@@ -98,47 +98,49 @@ export default function UserDashboard() {
                         </div>
                     </div>
 
-                    {/* QR Code Section — only when payment is confirmed */}
-                    {user.paymentStatus === 'COMPLETED' && (
-                        <div className="qr-card-section">
-                            <div className="qr-card-divider" />
-                            <h4 className="qr-card-title">Your Conference QR Code</h4>
-                            {qrLoading ? (
-                                <p style={{ textAlign: 'center', color: 'var(--color-text-light)' }}>Generating QR code…</p>
-                            ) : qrDataUrl ? (
-                                <div className="qr-card-body">
-                                    <img src={qrDataUrl} alt="Your QR Code" className="qr-code-img" />
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary qr-download-btn"
-                                        onClick={() => downloadQrAsPng(user.id, user.fullName)}
-                                    >
-                                        <Download size={16} /> Download QR Code
-                                    </button>
-                                </div>
-                            ) : (
-                                <p style={{ textAlign: 'center', color: 'var(--color-text-light)' }}>Unable to generate QR code.</p>
-                            )}
-                        </div>
-                    )}
                 </div>
 
                 {/* Registration Data */}
                 <div className="dashboard-card glass-panel animate-fade-up-d2">
                     <h3>Conference Registration Details</h3>
-                    <div className="user-info-list" style={{ marginTop: '1.5rem' }}>
-                        <div className="info-item">
-                            <span className="info-label">Selected Package</span>
-                            <span className="info-value">{user.registrationPackage}</span>
-                        </div>
-                        <div className="info-item">
-                            <span className="info-label">Payment Status</span>
-                            <span className="info-value">
-                                <span className={`status-badge ${user.paymentStatus === 'COMPLETED' ? 'status-completed' : 'status-pending'}`}>
-                                    {user.paymentStatus}
+                    <div className="registration-details-row">
+                        <div className="user-info-list registration-info-list">
+                            <div className="info-item">
+                                <span className="info-label">Selected Package</span>
+                                <span className="info-value">{user.registrationPackage}</span>
+                            </div>
+                            <div className="info-item">
+                                <span className="info-label">Payment Status</span>
+                                <span className="info-value">
+                                    <span className={`status-badge ${user.paymentStatus === 'COMPLETED' ? 'status-completed' : 'status-pending'}`}>
+                                        {user.paymentStatus}
+                                    </span>
                                 </span>
-                            </span>
+                            </div>
                         </div>
+
+                        {/* QR Code Section — only when payment is confirmed */}
+                        {user.paymentStatus === 'COMPLETED' && (
+                            <div className="qr-card-section">
+                                <h4 className="qr-card-title">Your Conference QR Code</h4>
+                                {qrLoading ? (
+                                    <p style={{ textAlign: 'center', color: 'var(--color-text-light)' }}>Generating QR code…</p>
+                                ) : qrDataUrl ? (
+                                    <div className="qr-card-body">
+                                        <img src={qrDataUrl} alt={`Conference QR Code for ${user.fullName}`} className="qr-code-img" />
+                                        <button
+                                            type="button"
+                                            className="btn btn-primary qr-download-btn"
+                                            onClick={() => downloadQrAsPng(user.id, user.fullName)}
+                                        >
+                                            <Download size={16} /> Download QR Code
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <p role="alert" style={{ textAlign: 'center', color: 'var(--color-text-light)' }}>Unable to generate QR code.</p>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     <div style={{ marginTop: '2.5rem', padding: '1.5rem', border: '1.5px dashed rgba(0, 135, 81, 0.3)', borderRadius: '12px', textAlign: 'center' }}>

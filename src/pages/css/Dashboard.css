@@ -31,6 +31,56 @@
     color: var(--color-green-dark);
 }
 
+.registration-details-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 240px);
+    gap: 1.5rem;
+    align-items: start;
+    margin-top: 1.5rem;
+}
+
+.registration-info-list {
+    padding-top: 0;
+}
+
+.qr-card-section {
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid rgba(0, 135, 81, 0.15);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.qr-card-title {
+    margin: 0 0 0.75rem;
+    color: var(--color-green-dark);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.qr-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.qr-code-img {
+    display: block;
+    width: min(100%, 180px);
+    height: auto;
+    border: 5px solid white;
+    border-radius: 8px;
+}
+
+.qr-download-btn {
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.85rem;
+}
+
 /* User Info Layout */
 .user-info-list,
 .admin-stat-list {
@@ -214,6 +264,18 @@
 @media (max-width: 992px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .registration-details-row {
+        grid-template-columns: 1fr;
+    }
+
+    .qr-card-section {
+        width: 100%;
+        max-width: 320px;
+        justify-self: center;
     }
 }
 

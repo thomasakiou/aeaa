@@ -18,6 +18,8 @@ import Gallery from './pages/Gallery'
 import Speakers from './pages/Speakers'
 import ExcursionSites from './pages/ExcursionSites'
 import Venue from './pages/Venue'
+import Hotels from './pages/Hotels'
+import Visa from './pages/Visa'
 import Downloads from './pages/Downloads'
 import VerifyUser from './pages/VerifyUser'
 import { ArrowUp } from 'lucide-react'
@@ -56,6 +58,8 @@ function App() {
                         <Route path="/programme/speakers" element={<Speakers />} />
                         <Route path="/programme/excursion-sites" element={<ExcursionSites />} />
                         <Route path="/programme/venue" element={<Venue />} />
+                        <Route path="/programme/hotels" element={<Hotels />} />
+                        <Route path="/programme/visa" element={<Visa />} />
                         <Route path="/downloads" element={<Downloads />} />
                         <Route path="/registration" element={<Registration />} />
                         <Route path="/submission" element={<Submission />} />

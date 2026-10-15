@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchApi } from '../api/client';
 import { CheckCircle, XCircle, Loader2, User, Building2, Globe, Phone, Package } from 'lucide-react';
 import './css/VerifyUser.css';
 
 interface PublicUser {
     id: string;
-    fullName: string;
+    fullName?: string;
     email: string;
     organization?: string | null;
     country?: string | null;
@@ -17,6 +17,8 @@ interface PublicUser {
 
 export default function VerifyUser() {
     const { userId } = useParams<{ userId: string }>();
+    const [searchParams] = useSearchParams();
+    const scannedFullName = searchParams.get('fullName')?.trim();
     const [userData, setUserData] = useState<PublicUser | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -73,7 +75,7 @@ export default function VerifyUser() {
                     </span>
                 </div>
 
-                <h1 className="verify-name">{userData.fullName}</h1>
+                <h1 className="verify-name">{userData.fullName || scannedFullName || 'Name unavailable'}</h1>
                 <p className="verify-subtitle">43rd AEAA Conference Participant</p>
 
                 <div className="verify-divider" />

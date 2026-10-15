@@ -25,6 +25,8 @@ const programmeItems = [
     { label: 'Speakers', path: '/programme/speakers' },
     { label: 'Excursion Sites', path: '/programme/excursion-sites' },
     { label: 'Venue', path: '/programme/venue' },
+    { label: 'Hotels', path: '/programme/hotels' },
+    { label: 'Visa', path: '/programme/visa' },
 ];
 
 export default function Navbar() {
