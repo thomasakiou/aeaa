@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchApi } from '../api/client';
-import { CheckCircle, XCircle, Loader2, User, Building2, Globe, Phone, Package } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import './css/VerifyUser.css';
 
 interface PublicUser {
@@ -38,6 +38,7 @@ export default function VerifyUser() {
     if (loading) {
         return (
             <div className="verify-page">
+                <VerifyBrand />
                 <div className="verify-loading">
                     <Loader2 className="verify-spinner" size={48} />
                     <p>Verifying participant…</p>
@@ -49,10 +50,8 @@ export default function VerifyUser() {
     if (error || !userData) {
         return (
             <div className="verify-page">
-                <div className="verify-card verify-error-card glass-panel">
-                    <div className="verify-icon-circle verify-icon-error">
-                        <XCircle size={48} />
-                    </div>
+                <VerifyBrand />
+                <div className="verify-card verify-error-card">
                     <h2>Verification Failed</h2>
                     <p className="verify-error-msg">{error || 'User not found.'}</p>
                 </div>
@@ -64,46 +63,41 @@ export default function VerifyUser() {
 
     return (
         <div className="verify-page">
-            <div className="verify-card glass-panel animate-fade-up">
-                {/* Header badge */}
-                <div className="verify-badge-wrapper">
-                    <div className={`verify-icon-circle ${isPaid ? 'verify-icon-success' : 'verify-icon-warning'}`}>
-                        {isPaid ? <CheckCircle size={48} /> : <XCircle size={48} />}
-                    </div>
-                    <span className={`status-badge ${isPaid ? 'status-completed' : 'status-pending'}`} style={{ fontSize: '0.9rem', padding: '0.35rem 1rem' }}>
-                        {isPaid ? 'Payment Confirmed' : 'Payment Pending'}
-                    </span>
-                </div>
-
+            <VerifyBrand />
+            <div className="verify-card">
                 <h1 className="verify-name">{userData.fullName || scannedFullName || 'Name unavailable'}</h1>
-                <p className="verify-subtitle">43rd AEAA Conference Participant</p>
+                <p className={`verify-status ${isPaid ? 'verify-status-paid' : 'verify-status-pending'}`}>
+                    Payment {isPaid ? 'Confirmed' : 'Pending'}
+                </p>
 
                 <div className="verify-divider" />
 
                 <div className="verify-details">
-                    <DetailRow icon={<User size={18} />} label="Email" value={userData.email} />
-                    <DetailRow icon={<Building2 size={18} />} label="Organization" value={userData.organization} />
-                    <DetailRow icon={<Globe size={18} />} label="Country" value={userData.country} />
-                    <DetailRow icon={<Phone size={18} />} label="Phone" value={userData.phoneNumber} />
-                    <DetailRow icon={<Package size={18} />} label="Package" value={userData.registrationPackage} />
-                </div>
-
-                <div className="verify-footer">
-                    <p>Scanned via AEAA Conference QR Verification</p>
+                    <DetailRow label="Email" value={userData.email} />
+                    <DetailRow label="Organization" value={userData.organization} />
+                    <DetailRow label="Country" value={userData.country} />
+                    <DetailRow label="Phone" value={userData.phoneNumber} />
+                    <DetailRow label="Package" value={userData.registrationPackage} />
                 </div>
             </div>
         </div>
     );
 }
 
-function DetailRow({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string | null }) {
+function VerifyBrand() {
+    return (
+        <header className="verify-brand" aria-label="AEAA and NECO">
+            <img src="/img/emblem.png" alt="AEAA logo" />
+            <img src="/img/neco.png" alt="NECO logo" />
+        </header>
+    );
+}
+
+function DetailRow({ label, value }: { label: string; value?: string | null }) {
     return (
         <div className="verify-detail-row">
-            <span className="verify-detail-icon">{icon}</span>
-            <div>
-                <span className="verify-detail-label">{label}</span>
-                <span className="verify-detail-value">{value || 'N/A'}</span>
-            </div>
+            <span className="verify-detail-label">{label}</span>
+            <span className="verify-detail-value">{value || 'N/A'}</span>
         </div>
     );
 }

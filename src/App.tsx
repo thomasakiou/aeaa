@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
@@ -28,6 +28,8 @@ import './index.css'
 
 function App() {
     const [showBackToTop, setShowBackToTop] = useState(false)
+    const location = useLocation()
+    const isVerificationPage = location.pathname.startsWith('/verify/')
 
     useEffect(() => {
         const handleScroll = () => setShowBackToTop(window.scrollY > 320)
@@ -40,7 +42,7 @@ function App() {
     return (
         <AuthProvider>
             <div className="app-container">
-                <Navbar />
+                {!isVerificationPage && <Navbar />}
                 <main>
                     <Routes>
                         <Route path="/" element={<Home />} />
@@ -67,8 +69,8 @@ function App() {
                         <Route path="/verify/:userId" element={<VerifyUser />} />
                     </Routes>
                 </main>
-                <Footer />
-                {showBackToTop && (
+                {!isVerificationPage && <Footer />}
+                {!isVerificationPage && showBackToTop && (
                     <button type="button" className="back-to-top" onClick={scrollToTop} aria-label="Back to top" title="Back to top">
                         <ArrowUp size={20} />
                     </button>
