@@ -62,6 +62,12 @@ export default function Contact() {
                                         <Phone size={16} style={{ color: 'var(--color-green-primary)' }} /> +234 8033601784
                                     </div>
                                 </div>
+                                <div>
+                                    <strong style={{ fontSize: '1.1rem' }}>Mr GODDY USIOBHOR</strong>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--color-text-main)', marginTop: '6px' }}>
+                                        <Phone size={16} style={{ color: 'var(--color-green-primary)' }} /> +234 8033768369
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
