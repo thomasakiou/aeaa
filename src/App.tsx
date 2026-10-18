@@ -22,6 +22,7 @@ import Hotels from './pages/Hotels'
 import Visa from './pages/Visa'
 import Downloads from './pages/Downloads'
 import VerifyUser from './pages/VerifyUser'
+import EventSchedule from './pages/EventSchedule'
 import { ArrowUp } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import './index.css'
@@ -67,6 +68,7 @@ function App() {
                         <Route path="/submission" element={<Submission />} />
                         <Route path="/contact" element={<Contact />} />
                         <Route path="/verify/:userId" element={<VerifyUser />} />
+                        <Route path="/event-schedule" element={<EventSchedule />} />
                     </Routes>
                 </main>
                 {!isVerificationPage && <Footer />}

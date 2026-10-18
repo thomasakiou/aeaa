@@ -51,11 +51,11 @@ export default function UserDashboard() {
             return;
         }
         setQrLoading(true);
-        generateQrDataUrl(user.id, user.fullName)
+        generateQrDataUrl(user.id, user.fullName, user.serialNumber)
             .then(setQrDataUrl)
             .catch(() => setQrDataUrl(null))
             .finally(() => setQrLoading(false));
-    }, [user?.id, user?.paymentStatus]);
+    }, [user?.id, user?.paymentStatus, user?.serialNumber]);
 
     // Fallback if component renders briefly before redirect
     if (!user) return <Navigate to="/login" replace />;
@@ -131,7 +131,7 @@ export default function UserDashboard() {
                                         <button
                                             type="button"
                                             className="btn btn-primary qr-download-btn"
-                                            onClick={() => downloadQrAsPng(user.id, user.fullName)}
+                                            onClick={() => downloadQrAsPng(user.id, user.fullName, user.serialNumber)}
                                         >
                                             <Download size={16} /> Download QR Code
                                         </button>

@@ -12,6 +12,7 @@ export interface User {
     country?: string;
     paymentStatus?: 'PENDING' | 'COMPLETED';
     registrationPackage?: string;
+    serialNumber?: number;
 }
 
 interface AuthContextType {

@@ -19,6 +19,7 @@ export default function VerifyUser() {
     const { userId } = useParams<{ userId: string }>();
     const [searchParams] = useSearchParams();
     const scannedFullName = searchParams.get('fullName')?.trim();
+    const scannedSerialNumber = searchParams.get('sn')?.trim();
     const [userData, setUserData] = useState<PublicUser | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -65,6 +66,21 @@ export default function VerifyUser() {
         <div className="verify-page">
             <VerifyBrand />
             <div className="verify-card">
+                {scannedSerialNumber && (
+                    <p style={{
+                        textAlign: 'center',
+                        margin: '0 0 0.75rem',
+                        padding: '0.5rem 1rem',
+                        background: 'rgba(0, 135, 81, 0.08)',
+                        borderRadius: '8px',
+                        fontWeight: 700,
+                        fontSize: '1.1rem',
+                        color: 'var(--color-green-dark, #005f38)',
+                        letterSpacing: '0.5px',
+                    }}>
+                        S/N: {scannedSerialNumber}
+                    </p>
+                )}
                 <h1 className="verify-name">{userData.fullName || scannedFullName || 'Name unavailable'}</h1>
                 <p className={`verify-status ${isPaid ? 'verify-status-paid' : 'verify-status-pending'}`}>
                     Payment {isPaid ? 'Confirmed' : 'Pending'}
@@ -73,6 +89,7 @@ export default function VerifyUser() {
                 <div className="verify-divider" />
 
                 <div className="verify-details">
+                    {scannedSerialNumber && <DetailRow label="Serial Number" value={scannedSerialNumber} />}
                     <DetailRow label="Email" value={userData.email} />
                     <DetailRow label="Organization" value={userData.organization} />
                     <DetailRow label="Country" value={userData.country} />

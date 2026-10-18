@@ -1,10 +1,10 @@
 import { useAuth } from '../context/AuthContext';
-import { Users, Trash2, CheckCircle, RotateCcw, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, FileDown } from 'lucide-react';
+import { Users, Trash2, CheckCircle, RotateCcw, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, FileDown, CalendarDays, FileText } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { apiUrl, fetchApi } from '../api/client';
 import './css/Dashboard.css';
 import { Navigate } from 'react-router-dom';
-import { downloadAllQrAsZip } from '../utils/qrcode';
+import { downloadAllQrAsZip, downloadScheduleQrAsPng } from '../utils/qrcode';
 
 interface AdminSubmission {
     id: string;
@@ -31,6 +31,10 @@ export default function AdminDashboard() {
     const [isDownloadingQrCodes, setIsDownloadingQrCodes] = useState(false);
     const [qrDownloadProgress, setQrDownloadProgress] = useState({ done: 0, total: 0 });
     const [qrDownloadError, setQrDownloadError] = useState('');
+    const [isDownloadingScheduleQr, setIsDownloadingScheduleQr] = useState(false);
+    const [scheduleQrError, setScheduleQrError] = useState('');
+    const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
+    const [pdfDownloadError, setPdfDownloadError] = useState('');
 
     // Pagination state
     const [currentPage, setCurrentPage] = useState(1);
@@ -124,9 +128,10 @@ export default function AdminDashboard() {
     const handleDownloadAllQrCodes = async () => {
         const registeredUsers = users
             .filter(registeredUser => registeredUser.role === 'USER')
-            .map(registeredUser => ({
+            .map((registeredUser, index) => ({
                 id: String(registeredUser.id),
                 fullName: String(registeredUser.fullName || registeredUser.name || ''),
+                serialNumber: registeredUser.serialNumber ?? (index + 1),
             }));
 
         if (registeredUsers.length === 0) {
@@ -145,6 +150,31 @@ export default function AdminDashboard() {
             setQrDownloadError(err instanceof Error ? err.message : 'Unable to generate the QR code archive.');
         } finally {
             setIsDownloadingQrCodes(false);
+        }
+    };
+
+    const handleDownloadPdf = async () => {
+        setIsDownloadingPdf(true);
+        setPdfDownloadError('');
+        try {
+            const token = localStorage.getItem('auth_token');
+            const response = await fetch(apiUrl('/admin/users/pdf'), {
+                headers: token ? { Authorization: `Bearer ${token}` } : {},
+            });
+            if (!response.ok) throw new Error('Unable to download delegates PDF.');
+            const blob = await response.blob();
+            const fileUrl = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = 'AEAA_Delegates_List.pdf';
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.setTimeout(() => URL.revokeObjectURL(fileUrl), 1000);
+        } catch (err) {
+            setPdfDownloadError(err instanceof Error ? err.message : 'Unable to download delegates PDF.');
+        } finally {
+            setIsDownloadingPdf(false);
         }
     };
 
@@ -194,6 +224,50 @@ export default function AdminDashboard() {
                             <span className="info-label">Payments Completed</span>
                             <span className="info-value" style={{ fontSize: '2rem', fontWeight: 'bold' }}>{stats.paymentsCompleted}</span>
                         </div>
+                    </div>
+                    <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(0,135,81,0.1)' }}>
+                        <h4 style={{ margin: '0 0 0.75rem', color: 'var(--color-green-dark)', fontSize: '1rem' }}>Event Schedule QR Code</h4>
+                        <p style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
+                            Download a QR code that links to the full 5-day event schedule. Share it with delegates for quick access.
+                        </p>
+                        <button
+                            type="button"
+                            className="btn btn-outline admin-qr-download-btn"
+                            style={{ width: '100%' }}
+                            disabled={isDownloadingScheduleQr}
+                            onClick={async () => {
+                                setIsDownloadingScheduleQr(true);
+                                setScheduleQrError('');
+                                try {
+                                    await downloadScheduleQrAsPng();
+                                } catch (err) {
+                                    setScheduleQrError(err instanceof Error ? err.message : 'Unable to generate QR code.');
+                                } finally {
+                                    setIsDownloadingScheduleQr(false);
+                                }
+                            }}
+                        >
+                            <CalendarDays size={18} />
+                            {isDownloadingScheduleQr ? 'Generating…' : 'Download Event Schedule QR'}
+                        </button>
+                        {scheduleQrError && <p className="admin-download-error" role="alert" style={{ marginTop: '0.5rem' }}>{scheduleQrError}</p>}
+                    </div>
+                    <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(0,135,81,0.1)' }}>
+                        <h4 style={{ margin: '0 0 0.75rem', color: 'var(--color-green-dark)', fontSize: '1rem' }}>Delegates List PDF</h4>
+                        <p style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: 'var(--color-text-light)' }}>
+                            Download a PDF of all registered delegates with serial numbers for manual attendance verification.
+                        </p>
+                        <button
+                            type="button"
+                            className="btn btn-outline admin-qr-download-btn"
+                            style={{ width: '100%' }}
+                            disabled={isDownloadingPdf || users.length === 0}
+                            onClick={() => void handleDownloadPdf()}
+                        >
+                            <FileText size={18} />
+                            {isDownloadingPdf ? 'Downloading…' : 'Download Delegates PDF'}
+                        </button>
+                        {pdfDownloadError && <p className="admin-download-error" role="alert" style={{ marginTop: '0.5rem' }}>{pdfDownloadError}</p>}
                     </div>
                 </div>
 
