@@ -30,7 +30,7 @@ import './index.css'
 function App() {
     const [showBackToTop, setShowBackToTop] = useState(false)
     const location = useLocation()
-    const isVerificationPage = location.pathname.startsWith('/verify/')
+    const isMinimalPage = location.pathname.startsWith('/verify/') || location.pathname === '/event-schedule'
 
     useEffect(() => {
         const handleScroll = () => setShowBackToTop(window.scrollY > 320)
@@ -43,7 +43,7 @@ function App() {
     return (
         <AuthProvider>
             <div className="app-container">
-                {!isVerificationPage && <Navbar />}
+                {!isMinimalPage && <Navbar />}
                 <main>
                     <Routes>
                         <Route path="/" element={<Home />} />
@@ -71,8 +71,8 @@ function App() {
                         <Route path="/event-schedule" element={<EventSchedule />} />
                     </Routes>
                 </main>
-                {!isVerificationPage && <Footer />}
-                {!isVerificationPage && showBackToTop && (
+                {!isMinimalPage && <Footer />}
+                {!isMinimalPage && showBackToTop && (
                     <button type="button" className="back-to-top" onClick={scrollToTop} aria-label="Back to top" title="Back to top">
                         <ArrowUp size={20} />
                     </button>

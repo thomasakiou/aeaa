@@ -89,7 +89,7 @@ export default function VerifyUser() {
                 <div className="verify-divider" />
 
                 <div className="verify-details">
-                    {scannedSerialNumber && <DetailRow label="Serial Number" value={scannedSerialNumber} />}
+                    {/* {scannedSerialNumber && <DetailRow label="Serial Number" value={scannedSerialNumber} />} */}
                     <DetailRow label="Email" value={userData.email} />
                     <DetailRow label="Organization" value={userData.organization} />
                     <DetailRow label="Country" value={userData.country} />

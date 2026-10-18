@@ -1,9 +1,16 @@
 import '../styles/animations.css';
 import './css/Programme.css';
-import { Clock } from 'lucide-react';
+import { ChevronDown, Clock } from 'lucide-react';
+import { useState } from 'react';
 import { scheduleData } from '../data/scheduleData';
 
 export default function EventSchedule() {
+    const [expandedDays, setExpandedDays] = useState<Record<number, boolean>>({ 0: true });
+
+    const toggleDay = (dayIndex: number) => {
+        setExpandedDays((current) => ({ ...current, [dayIndex]: !current[dayIndex] }));
+    };
+
     return (
         <div className="programme-page">
             <div className="page-hero">
@@ -27,13 +34,20 @@ export default function EventSchedule() {
 
                 {scheduleData.map((day, dayIdx) => (
                     <div key={dayIdx} className={`day-block animate-fade-up-d${Math.min(dayIdx + 2, 5)}`}>
-                        <div className="day-header day-header-expanded" style={{ cursor: 'default' }}>
+                        <button
+                            type="button"
+                            className={`day-header ${expandedDays[dayIdx] ? 'day-header-expanded' : ''}`}
+                            onClick={() => toggleDay(dayIdx)}
+                            aria-expanded={Boolean(expandedDays[dayIdx])}
+                            aria-controls={`day-schedule-${dayIdx}`}
+                        >
                             <span className="day-heading-content">
                                 <h3>{day.day}</h3>
                                 <span className="day-date">{day.date}</span>
                             </span>
-                        </div>
-                        <div id={`day-schedule-${dayIdx}`} className="timeline day-schedule-expanded">
+                            <ChevronDown size={22} className="day-toggle-icon" aria-hidden="true" />
+                        </button>
+                        {expandedDays[dayIdx] && <div id={`day-schedule-${dayIdx}`} className="timeline day-schedule-expanded">
                             {day.events.map((event, idx) => {
                                 const Icon = event.icon;
                                 return (
@@ -52,7 +66,7 @@ export default function EventSchedule() {
                                     </div>
                                 );
                             })}
-                        </div>
+                        </div>}
                     </div>
                 ))}
             </div>
