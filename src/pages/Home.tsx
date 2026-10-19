@@ -67,7 +67,8 @@ export default function Home() {
                     {/* YOUTUBE EMBED */}
                     {/* <iframe
                         className="home-video-player"
-                        src="https://www.youtube-nocookie.com/embed/RhH3OUu7dXI"
+                        // src="https://www.youtube-nocookie.com/embed/RhH3OUu7dXI"
+                        src="https://www.youtube-nocookie.com/embed/F_QMt3a3EZM"
                         title="AEAA Nigeria 2027 conference presentation"
                         loading="lazy"
                         referrerPolicy="strict-origin-when-cross-origin"
@@ -76,7 +77,7 @@ export default function Home() {
                     /> */}
 
                     {/* FACEBOOK EMBED */}
-                    
+
                     {/* <iframe
                         className="home-video-player"
                         src="https://www.facebook.com/plugins/video.php?height=420&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1810306219979648%2F&show_text=false&width=560&t=0"
@@ -89,7 +90,8 @@ export default function Home() {
 
                     <iframe
                         className="home-video-player"
-                        src="https://player.vimeo.com/video/1236488452?badge=0&autopause=0&autoplay=0"
+                        // src="https://player.vimeo.com/video/1236488452?badge=0&autopause=0&autoplay=0"
+                        src="https://player.vimeo.com/video/1237182263?badge=0&autopause=0&autoplay=0"
                         title="AEAA Nigeria 2027 conference presentation"
                         loading="lazy"
                         referrerPolicy="strict-origin-when-cross-origin"
