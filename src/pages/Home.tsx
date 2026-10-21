@@ -90,7 +90,6 @@ export default function Home() {
 
                     <iframe
                         className="home-video-player"
-                        // src="https://player.vimeo.com/video/1236488452?badge=0&autopause=0&autoplay=0"
                         src="https://player.vimeo.com/video/1237182263?badge=0&autopause=0&autoplay=0"
                         title="AEAA Nigeria 2027 conference presentation"
                         loading="lazy"
